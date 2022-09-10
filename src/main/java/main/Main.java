@@ -1,14 +1,28 @@
 package main;
 
 import selenium.BaseWebTest;
+import selenium.Utilities;
 
 import java.io.FileNotFoundException;
 
 public class Main {
 
     public static void main(String... args) {
+        //test data:
+        String url = "https://ukr.net";
+        String login = "tft";
+        String password = "p@ssw0rd2022";
+
         BaseWebTest baseWebTest = new BaseWebTest();
-        baseWebTest.loadGooglePage();
+
+        baseWebTest.startWebBrowser();
+        baseWebTest.goToUrl(url);
+        baseWebTest.enterLoginPassword(login, password);
+        baseWebTest.checkEmailAccount(login);
+        baseWebTest.goToInbox();
+        baseWebTest.checkPageTitle(login);
+//        Utilities.treadWaiter(3);
+        baseWebTest.closeWebBrowser();
     }
 
     public static void someMethod() throws FileNotFoundException {
