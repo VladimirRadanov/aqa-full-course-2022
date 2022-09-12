@@ -118,7 +118,4 @@ public class BaseWebTest {
         else System.out.println("Title is INCORRECT:\t" + pageTitle);
     }
 
-
 }
-
-

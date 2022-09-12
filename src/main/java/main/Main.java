@@ -1,7 +1,6 @@
 package main;
 
 import selenium.BaseWebTest;
-import selenium.Utilities;
 
 import java.io.FileNotFoundException;
 
