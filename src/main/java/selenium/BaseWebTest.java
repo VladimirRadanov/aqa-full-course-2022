@@ -45,32 +45,41 @@ public class BaseWebTest {
     }
 
     public void startWebBrowser() {
-        WebDriverManager.chromedriver().setup();
-        webDriver = new ChromeDriver();
-    }
-
-    public void goToUrl(String url){
-        webDriver.get(url);
+        try {
+            WebDriverManager.chromedriver().setup();
+            webDriver = new ChromeDriver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeWebBrowser() {
-        if(webDriver != null) webDriver.quit();
+        if (webDriver != null)
+            try {
+                webDriver.quit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
-    public void switchToLoginFrame(){
+    public void goToUrl(String url) {
+        webDriver.get(url);
+    }
+
+    public void switchToLoginFrame() {
         webDriver.switchTo().frame(webDriver.findElement(By.name(loginFrameName)));
     }
 
     public void switchToLastTab() {
         ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
-        webDriver.switchTo().window(tabs.get(tabs.size()-1));
+        webDriver.switchTo().window(tabs.get(tabs.size() - 1));
     }
 
-    public void switchToDefaultContent(){
+    public void switchToDefaultContent() {
         webDriver.switchTo().defaultContent();
     }
 
-    public void enterLoginPassword(String login, String password){
+    public void enterLoginPassword(String login, String password) {
         switchToLoginFrame();
         //enter login and password
         webDriver.findElement(By.xpath(loginInputXPath)).sendKeys(login);
@@ -78,7 +87,7 @@ public class BaseWebTest {
         switchToDefaultContent();
     }
 
-    public void checkEmailAccount(String login){
+    public void checkEmailAccount(String login) {
 //        webDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 //        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
         Utilities.treadWaiter(2);
@@ -89,23 +98,23 @@ public class BaseWebTest {
 
         String loggedEmail = webDriver.findElement(By.xpath(emailAccountXPath)).getText();
 
-        if((login + "@ukr.net").equals(loggedEmail)) System.out.println("Email account is CORRECT:\t" + loggedEmail);
+        if ((login + "@ukr.net").equals(loggedEmail)) System.out.println("Email account is CORRECT:\t" + loggedEmail);
         else System.out.println("Email account is INCORRECT:\t" + loggedEmail);
 
         switchToDefaultContent();
     }
 
-    public void goToInbox(){
+    public void goToInbox() {
         switchToLoginFrame();
         webDriver.findElement(By.xpath(inboxLinkXPath)).click();
         switchToLastTab();
         switchToDefaultContent();
     }
 
-    public void checkPageTitle(String login){
+    public void checkPageTitle(String login) {
         String pageTitle = webDriver.getTitle();
 
-        if(pageTitle.contains(login)) System.out.println("Title is CORRECT:\t" + pageTitle);
+        if (pageTitle.contains(login)) System.out.println("Title is CORRECT:\t" + pageTitle);
         else System.out.println("Title is INCORRECT:\t" + pageTitle);
     }
 
