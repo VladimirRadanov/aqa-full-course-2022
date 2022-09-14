@@ -5,8 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.List;
-
 //TODO: load https://www.ukr.net/ or any mail service
 //TODO: and login into mail
 public class BaseWebTest {
@@ -17,16 +15,17 @@ public class BaseWebTest {
             WebDriverManager.chromedriver().setup();
 
             chromeDriver = new ChromeDriver();
-            chromeDriver.get("https://google.com/");
+            chromeDriver.get("https://ukr.net/");
 
-            List<WebElement> buttons = chromeDriver.findElements(By.tagName("button"));
-            buttons.get(3).click();
+            WebElement iFrameElement = chromeDriver.findElement(By.name("mail widget"));
+            chromeDriver.switchTo().frame(iFrameElement);
 
-            WebElement searchBar = chromeDriver.findElement(By.name("q"));
-            searchBar.click();
-            searchBar.sendKeys("test parametrization");
-            WebElement searchButton = chromeDriver.findElement(By.name("btnK"));
-            searchButton.click();
+            WebElement login = chromeDriver.findElement(By.name("login"));
+            login.click();
+
+            chromeDriver.switchTo().defaultContent();
+
+            WebElement iFrameParent = chromeDriver.findElement(By.id("login-frame-wraper"));
         } finally {
             if (chromeDriver != null) {
                 chromeDriver.quit();
