@@ -1,12 +1,10 @@
 package main;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-//TODO: add amazon.com tests like Rozetka tests
-public class TestNGWebTest {
+public class TestNGWebTest extends BaseTest {
 
     @BeforeClass
     public static void setup() {
@@ -30,7 +28,7 @@ public class TestNGWebTest {
 
     @Test
     public void testNgTest03() {
-        System.out.println("this is test NG test");
-        Assert.assertEquals(1, 0);
+        driver.get("https://twitter.com/");
     }
+
 }

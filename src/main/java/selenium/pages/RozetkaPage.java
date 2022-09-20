@@ -13,7 +13,7 @@ import java.util.List;
 public class RozetkaPage {
 
     private final WebDriver driver;
-    private final static String URL = "https://rozetka.com.ua/ua/";
+    public final static String URL = "https://rozetka.com.ua/ua/";
 
     public RozetkaPage(WebDriver driver) {
         this.driver = driver;
@@ -37,6 +37,12 @@ public class RozetkaPage {
     public void switchToCategory(String categoryName) {
         WebElement catElement = driver.findElement(By.linkText(categoryName));
         catElement.click();
+    }
+
+    public void waitForSearchResults(int amount) {
+        new WebDriverWait(driver, Duration.ofSeconds(30))
+                .until(ExpectedConditions.numberOfElementsToBeMoreThan(
+                        By.className("catalog-grid__cell"), amount));
     }
 
     public List<WebElement> getSearchResults() {
