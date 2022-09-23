@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "gender": "female",
+      "name": {
+        "title": "Ms",
+        "first": "Soline",
+        "last": "Da Silva"
+      },
+      "nat": "FR"
+    }
+  ]
+}
+
+class Result : List<Person>
+class Person : gender, nat, name<Name>
+class Name : title, first, last
