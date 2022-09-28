@@ -40,6 +40,10 @@ public class GooglePage {
         driver.findElements(By.tagName("button")).get(2).click();
     }
 
+    public String getFullCountryName() {
+        return driver.findElement(By.xpath("//div[@data-tts='answers']/div")).getText();
+    }
+
     private void clickSuitable(List<WebElement> buttons) {
         for (WebElement button : buttons) {
             try {
@@ -49,5 +53,9 @@ public class GooglePage {
 
             }
         }
+    }
+
+    public void goBack() {
+        driver.navigate().back();
     }
 }

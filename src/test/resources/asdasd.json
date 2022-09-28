@@ -3,15 +3,11 @@
     {
       "gender": "female",
       "name": {
-        "title": "Ms",
-        "first": "Soline",
-        "last": "Da Silva"
+        "title": "Miss",
+        "first": "Geetha",
+        "last": "Dawangave"
       },
-      "nat": "FR"
+      "nat": "IN"
     }
   ]
 }
-
-class Result : List<Person>
-class Person : gender, nat, name<Name>
-class Name : title, first, last
