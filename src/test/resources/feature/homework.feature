@@ -7,9 +7,5 @@ Feature: person search
   Scenario: generate and search person
     Given A random person "person1" with gender "male"
     Given A random person "person2" with gender "female"
-    When I load google page
-    And I google for clients "person1" nationality
-    Then Some search result is displayed
-    When I go back
-    And I google for clients "person2" nationality
-    Then Some search result is displayed
+    Given save random user "person1" to DB
+    Given save random user "person2" to DB

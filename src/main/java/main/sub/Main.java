@@ -1,41 +1,52 @@
 package main.sub;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import selenium.CloudFlarePage;
 import selenium.GooglePage;
 
 public class Main {
 
-    public static void main(String... args) {
-        WebDriverManager.chromedriver().setup();
-        ChromeDriver driver = new ChromeDriver();
-        try {
-            GooglePage googlePage = new GooglePage(driver);
-            testGoogleOne(googlePage);
-            testGoogleTwo(googlePage);
-            cloudFlareCookiesTest(new CloudFlarePage(driver));
-        } finally {
-            driver.quit();
-        }
-    }
+  public static void main(String... args) throws ClassNotFoundException, SQLException {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection con =
+        DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "password");
+    Statement stmt = con.createStatement();
 
-    public static void cloudFlareCookiesTest(CloudFlarePage cloudFlarePage) {
-        cloudFlarePage.loadPage();
-        cloudFlarePage.waitForAcceptCookiesBtn().click();
-    }
+    stmt.execute("insert into Persons (LastName, FirstName, Address, City)\n" +
+        "VALUES ('Doe', 'John', 'Street 1', 'London')");
 
-    public static void testGoogleOne(GooglePage googlePage) {
-        googlePage.loadPage();
-        googlePage.acceptCookies();
-        googlePage.setSearchValue("news Ukraine");
-        googlePage.pressSearchButton();
-    }
+    ResultSet rs = stmt.executeQuery("select * from Persons where City = 'London'");
 
-    public static void testGoogleTwo(GooglePage googlePage) {
-        googlePage.loadPage();
-        googlePage.setSearchValue("news World");
-        googlePage.pressFeelingLucky();
+    while (rs.next()) {
+      System.out.print(rs.getString("FirstName") + " ");
+      System.out.print(rs.getString("LastName") + " ");
+      System.out.print(rs.getString("City") + " ");
+      System.out.println(rs.getString("Address"));
     }
+    con.close();
+
+  }
+
+  public static void cloudFlareCookiesTest(CloudFlarePage cloudFlarePage) {
+    cloudFlarePage.loadPage();
+    cloudFlarePage.waitForAcceptCookiesBtn().click();
+  }
+
+  public static void testGoogleOne(GooglePage googlePage) {
+    googlePage.loadPage();
+    googlePage.acceptCookies();
+    googlePage.setSearchValue("news Ukraine");
+    googlePage.pressSearchButton();
+  }
+
+  public static void testGoogleTwo(GooglePage googlePage) {
+    googlePage.loadPage();
+    googlePage.setSearchValue("news World");
+    googlePage.pressFeelingLucky();
+  }
 
 }
