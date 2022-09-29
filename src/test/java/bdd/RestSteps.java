@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.is;
 public class RestSteps extends RestBaseSteps {
 
     private final static String RANDOM_USER_URL =
+//            "https://randomuser.me/api/?inc=location,gender,name,nat&noinfo&gender=%s";
             "https://randomuser.me/api/?inc=gender,name,nat&noinfo&gender=%s";
 
     @Given("A random person {string} with gender {string}")
