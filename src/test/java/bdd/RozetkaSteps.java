@@ -1,9 +1,10 @@
 package bdd;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Assertions;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.WebDriver;
 import selenium.driver.WebDriverFactory;
 import selenium.pages.RozetkaPage;
@@ -30,9 +31,9 @@ public class RozetkaSteps {
     rozetkaPage.waitForSearchResults(1);
   }
 
-  @Then("i see at least {long} search results")
-  public void checkResultsCount(long amount) {
-    Assertions.assertEquals(amount, rozetkaPage.getSearchResults().size(),
-        "Search results count doest not match exceed expected");
+  @Then("i see at least {int} search results")
+  public void checkResultsCount(int amount) {
+    assertThat("Search results count doest not match exceed expected", rozetkaPage.getSearchResults().size(),
+        Matchers.greaterThanOrEqualTo(amount));
   }
 }
