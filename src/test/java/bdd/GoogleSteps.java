@@ -25,7 +25,7 @@ public class GoogleSteps {
 
     @When("I google for clients {string} nationality")
     public void googlePersonNationality(String alias) {
-        ResultsDto person = (ResultsDto) dataHolder.get(alias);
+        ResultsDto person = dataHolder.get(alias, ResultsDto.class);
         String nat = person.getResults().get(0).getNat();
         googlePage.setSearchValue(String.format(SEARCH_PATTERN, nat));
         googlePage.pressSearchButton();

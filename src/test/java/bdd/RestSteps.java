@@ -7,10 +7,9 @@ import dto.ResultsDto;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
-import java.util.stream.Collectors;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ParseException;
@@ -37,34 +36,31 @@ public class RestSteps extends RestBaseSteps {
         dataHolder.put(alias, stringToObject(EntityUtils.toString(response)));
     }
 
-    @When("i execute {string} request with {string} as {string}")
-    public void createHttpRequest(String requestAlias, String clientName, String responseAlias)
-            throws IOException, ParseException {
-        CloseableHttpClient client = (CloseableHttpClient) dataHolder.get(clientName);
-        ClassicHttpRequest request = (ClassicHttpRequest) dataHolder.get(requestAlias);
+    @When("i execute {string} request")
+    public void createHttpRequest(String requestAlias) throws IOException, ParseException {
+        CloseableHttpClient client = HttpClients.createDefault();
+        ClassicHttpRequest request = dataHolder.get(requestAlias, HttpGet.class);
         HttpEntity entity = client.execute(request).getEntity();
-        ResultsDto dto = stringToObject(EntityUtils.toString(entity));
-        dataHolder.put(responseAlias, dto);
-
+        dataHolder.put(requestAlias, stringToObject(EntityUtils.toString(entity)));
     }
 
-    @When("i create a {string} request")
+    @Given("i create a {string} request")
     public void iCreateARequest(String alias) {
         dataHolder.put(alias,
                 new HttpGet("https://randomuser.me/api/?inc=gender,name,nat&noinfo&gender=female"));
     }
 
-    @When("request {string} has header {string} = {string}")
+    @Given("request {string} has header {string} = {string}")
     public void updateRequest(String alias, String headerName, String value) {
-        ClassicHttpRequest request = (ClassicHttpRequest) dataHolder.get(alias);
+        ClassicHttpRequest request = dataHolder.get(alias, HttpGet.class);
         request.addHeader(headerName, value);
-        dataHolder.put(alias, request);
     }
 
     @Then("response {string} contains {string}")
     public void responseContains(String responseAlias, String value) {
-        assertThat(((ResultsDto) dataHolder.get(responseAlias)).getResults().get(0).getGender(),
-                is(value));
+        assertThat(dataHolder.get(responseAlias, ResultsDto.class)
+                .getResults().get(0).getGender(), is(value));
+        System.out.println("tests complete!");
     }
 
     @Then("object to json step")
