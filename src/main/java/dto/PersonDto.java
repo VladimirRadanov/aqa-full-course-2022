@@ -9,13 +9,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PersonDto {
 
-    @Getter
-    @Setter
-    private String gender;
-    @Getter
-    @Setter
-    private String nat;
-    @Getter
-    @Setter
-    private PersonNameDto name;
+  @Getter
+  @Setter
+  private String gender;
+  @Getter
+  @Setter
+  private String nat;
+  @Getter
+  @Setter
+  private PersonNameDto name;
+
+  @Override
+  public String toString() {
+    return String.format("[%s, %s, %s]", gender, nat, name.toString());
+  }
 }

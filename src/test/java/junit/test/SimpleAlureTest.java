@@ -1,19 +1,22 @@
 package junit.test;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import selenium.driver.WebDriverFactory;
 
 public class SimpleAlureTest {
 
-    public void someTest() {
-        someStep();
-        someStepTwo();
-    }
+  @Test
+  public void someTest() {
+    WebDriverRunner.setWebDriver(WebDriverFactory.getInstance().getActiveDriver());
+    WebDriverRunner.getWebDriver().get("https://rozetka.com.ua/");
 
-    private void someStep() {
-        System.out.println("aaa");
-    }
+    $("body > app-root > div > div > rz-header > rz-main-header > header > div > div > a > picture > img")
+        .click();
 
-    private void someStepTwo() {
-        System.out.println("bbb");
-    }
+  }
 }

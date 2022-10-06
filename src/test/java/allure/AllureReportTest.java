@@ -7,8 +7,12 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AllureReportTest {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(AllureReportTest.class);
 
   @Test
   @Description("This test is here to show a successful flow")
@@ -39,12 +43,12 @@ public class AllureReportTest {
 
   @Step("Meaningless step that prints things. Input: {input}")
   private void meaninglessStep(String input) {
-    System.out.println("This methods just print stuff " + input);
+    LOGGER.info("This methods just print stuff {}", input);
   }
 
   @Step("The test says \"{input}\"")
   private void anotherMeaninglessStep(String input) {
-    System.out.println("Another methods that just prints stuff " + input);
+    LOGGER.info("Another methods that just prints stuff {}", input);
   }
 
   @Step("Generate random number which is nullable")
