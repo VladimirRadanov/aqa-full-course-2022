@@ -8,7 +8,7 @@ import io.qameta.allure.Step;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
 
-public class AllureReportTests {
+public class AllureReportTest {
 
   @Test
   @Description("This test is here to show a successful flow")
